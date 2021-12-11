@@ -2,42 +2,24 @@ package ru.adsJava.lesson2;
 
 public class Sort {
 
-    public static void countingSortCost (Notebook[] theArray, int maxValue) {
+    public static void selectionSort (Notebook[] theArray) {
 
-        int numCounts[] = new int[maxValue + 1];
-
-        for (int i = 0; i < theArray.length; i++) {
-            numCounts[theArray[i].getCost()]++;
-        }
-
-        int currentSortedIndex = 0;
-
-        for (int n = 0; n < numCounts.length; n++) {
-            int count = numCounts[n];
-            for (int k = 0; k < count; k++) {
-                theArray[currentSortedIndex].setCost(n);
-                currentSortedIndex++;
+        for (int i = 0; i < theArray.length -1; i++) {
+            for (int j = i + 1; j < theArray.length; j++) {
+                if (theArray[j].getCost() < theArray[i].getCost()) {
+                    Notebook.swapArr(theArray, i, j);
+                } else if (theArray[j].getCost() == theArray[i].getCost()) {
+                    if (theArray[j].getRam() < theArray[i].getRam()) {
+                        Notebook.swapArr(theArray, i, j);
+                    } else if (theArray[j].getRam() == theArray[i].getRam()) {
+                        if (theArray[j].getManufacturerId() < theArray[i].getManufacturerId()) {
+                            Notebook.swapArr(theArray, i, j);
+                        }
+                    }
+                }
             }
         }
     }
 
-    public static void countingSortRam (Notebook[] theArray, int maxValue) {
-
-        int numCounts[] = new int[maxValue + 1];
-
-        for (int i = 0; i < theArray.length; i++) {
-            numCounts[theArray[i].getRam()]++;
-        }
-
-        int currentSortedIndex = 0;
-
-        for (int n = 0; n < numCounts.length; n++) {
-            int count = numCounts[n];
-            for (int k = 0; k < count; k++) {
-                theArray[currentSortedIndex].setRam(n);
-                currentSortedIndex++;
-            }
-        }
-    }
 
 }

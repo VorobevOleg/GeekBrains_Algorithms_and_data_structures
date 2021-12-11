@@ -4,6 +4,7 @@ public class Notebook {
     private int cost;
     private int ram;
     private String manufacturer;
+    private int manufacturerId;
 
     // Для массива цен ноутбуков
     private static int minCost = 500;
@@ -27,6 +28,21 @@ public class Notebook {
         this.cost = arrCost[randomInt(0,(int)quantityArrCost -1)];
         this.ram = arrRam[randomInt(0,(int)quantityArrRam -1)];
         this.manufacturer = arrManufacturer[randomInt(0,arrManufacturer.length-1)];
+        if (this.manufacturer.equals("Lenuvo")) {
+            this.manufacturerId = 1;
+        }
+        if (this.manufacturer.equals("Asos")) {
+            this.manufacturerId = 2;
+        }
+        if (this.manufacturer.equals("MacNote")) {
+            this.manufacturerId = 3;
+        }
+        if (this.manufacturer.equals("Eser")) {
+            this.manufacturerId = 4;
+        }
+        if (this.manufacturer.equals("Xamiou")) {
+            this.manufacturerId = 5;
+        }
     }
 
     public static void createArrCost() {
@@ -52,28 +68,16 @@ public class Notebook {
         return cost;
     }
 
-    public void setCost(int cost) {
-        this.cost = cost;
-    }
-
-    public static int getMaxCost() {
-        return maxCost;
-    }
-
     public int getRam() {
         return ram;
     }
 
-    public void setRam(int ram) {
-        this.ram = ram;
-    }
-
-    public static int getMaxRam() {
-        return maxRam;
-    }
-
     public String getManufacturer() {
         return manufacturer;
+    }
+
+    public int getManufacturerId() {
+        return manufacturerId;
     }
 
     @Override
@@ -84,19 +88,10 @@ public class Notebook {
                 ", manufacturer = '" + manufacturer + '\'' +
                 '}';
     }
+    public static void swapArr(Notebook[] arrNotebook, int i, int j) {
+        Notebook n = arrNotebook[i];
+        arrNotebook[i] = arrNotebook[j];
+        arrNotebook[j] = n;
+    }
 
-                Collections.sort(allBooks, new Comparator<Book>() {
-
-        @Override
-        public int compare(Book t, Book t1) {
-            int a =  t.getId()- t1.getId();
-
-            if(a == 0){
-                int a1 = t.getNumber() - t1.getNumber();
-                return a1;
-            }
-            else
-                return a;
-        }
-    });
 }

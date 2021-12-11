@@ -1,13 +1,9 @@
 package ru.adsJava.lesson2;
 
-
-import java.util.Arrays;
-import java.util.Comparator;
-
 public class MainClass {
     public static void main(String[] args) {
 
-        Notebook[] arrNotebooks = new Notebook[100];
+        Notebook[] arrNotebooks = new Notebook[10000];
         Notebook.createArrCost();
         Notebook.createArrRam();
 
@@ -18,24 +14,15 @@ public class MainClass {
         System.out.println("Ноутбуки до сортировки ----------------------");
 
         for (int i = 0; i < arrNotebooks.length; i++) {
-            System.out.println(arrNotebooks[i].getCost());
-            System.out.println(arrNotebooks[i].getRam());
-            System.out.println(arrNotebooks[i].getManufacturer());
+            System.out.println(arrNotebooks[i]);
         }
+
         System.out.println("Ноутбуки после сортировки ----------------------");
 
-
-        Arrays.sort(arrNotebooks, Comparator.comparingInt(Notebook::getCost)
-                        .thenComparingInt(Notebook::getRam)
-                .thenComparing(Notebook::getManufacturer));
-
+        Sort.selectionSort(arrNotebooks);
 
         for (int i = 0; i < arrNotebooks.length; i++) {
             System.out.println(arrNotebooks[i]);
-        /*    System.out.println(arrNotebooks[i].getRam());
-            System.out.println(arrNotebooks[i].getManufacturer()); */
         }
-
-
     }
 }
