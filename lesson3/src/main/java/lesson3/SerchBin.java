@@ -8,24 +8,29 @@ public class SerchBin {
         int base;
         int i = 0;
 
+        if (arr.length == 0 || arr.length == 1 || arr[0] == 2) {
+            return 1;
+        }
 
         while (end >= start) {
             i++;
             base = (start + end) / 2;
 
             if (arr[base + 1] - arr[base] == 2) {
-                System.out.println("Кол-во итераций: " + i);
                 return arr[base] + 1;
-            } else if (((arr[start] + arr[base]) * (arr[base] - arr[start] + 1) / 2) ==
-                        ((start + 1 + base + 1) * (base + 1 - (start + 1) + 1) / 2))  {
+            } else if (sumIntervalAB(arr[start],arr[base]) ==
+                        sumIntervalAB(start+1,base+1))  {
                 start = base + 1;
             } else {
                 end = base - 1;
             }
         }
 
-        System.out.println("Кол-во итераций: " + i);
         return -1;
+    }
+
+    public static int sumIntervalAB(int a, int b) {
+        return (a+b)*(b-a+1)/2;
     }
 
 }
