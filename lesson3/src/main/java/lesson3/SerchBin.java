@@ -6,16 +6,17 @@ public class SerchBin {
         int start = 0;
         int end = arr.length - 1;
         int base;
-        int i = 0;
 
         if (arr.length == 0 || arr.length == 1 || arr[0] == 2) {
             return 1;
         }
 
-        while (end >= start) {
-            i++;
-            base = (start + end) / 2;
+        if (sumIntervalAB(1, arr.length) == sumIntervalAB(arr[start],arr[end])) {
+            return arr.length + 1;
+        }
 
+        while (end >= start) {
+            base = (start + end) / 2;
             if (arr[base + 1] - arr[base] == 2) {
                 return arr[base] + 1;
             } else if (sumIntervalAB(arr[start],arr[base]) ==
