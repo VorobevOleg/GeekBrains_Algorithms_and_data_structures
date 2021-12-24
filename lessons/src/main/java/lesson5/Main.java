@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Main {
 
-    public static int maxGeneralWeight = 5;
+    public static int maxKnapsackWeight = 5;
     public static int maxGeneralCost = 0;
     private List<Item> resultListItems = new ArrayList<>();
     private List<Item> bufListItems = new ArrayList<>();
@@ -21,8 +21,8 @@ public class Main {
         arrItems[2] = new Item("Гиря",10,500);
         arrItems[3] = new Item("Утюг",1,2000);
 
-        System.out.println("Вместимость рюкзака: " + maxGeneralWeight);
-        System.out.println("Список возможных вещей:");
+        System.out.println("Вместимость рюкзака: " + maxKnapsackWeight);
+        System.out.println("Список всех вещей:");
         for (int i = 0; i < arrItems.length; i++) {
             System.out.print(arrItems[i]);
         }
@@ -50,7 +50,7 @@ public class Main {
 
     private List<Item> findMaxCost (Item[] arr) {
         resultListItems.addAll(Arrays.asList(arr));
-        if (weight(resultListItems) <= maxGeneralWeight) {
+        if (weight(resultListItems) <= maxKnapsackWeight) {
             maxGeneralCost = cost(resultListItems);
             return resultListItems;
         }
@@ -60,30 +60,33 @@ public class Main {
         return resultListItems;
     }
 
-    private void find(List<Item> bufListItems) {
-        List<Item> buf2ListItems = new ArrayList<>();
-        buf2ListItems.addAll(bufListItems);
-        if (buf2ListItems.isEmpty()) {
+    private void find(List<Item> bufList) {
+        if (bufList.size() == 0) {
             return;
         }
-        bufListItems.remove(0);
+        for (int i = 0; i < bufList.size(); i++) {
+            List<Item> newBufList = new ArrayList<>(bufList);
+            newBufList.remove(i);
+            find(newBufList);
 
-        int bufMaxCost = 0;
-        int bufMaxWeight = 0;
+            int bufMaxCost = 0;
+            int bufMaxWeight = 0;
 
 
+            for (int j = 0; j < newBufList.size(); j++) {
+                bufMaxCost = bufMaxCost + newBufList.get(j).getCost();
+                bufMaxWeight = bufMaxWeight + newBufList.get(j).getWeight();
+            }
 
-        for (int i = 0; i < buf2ListItems.size(); i++) {
-            bufMaxCost = bufMaxCost + buf2ListItems.get(i).getCost();
-            bufMaxWeight = bufMaxWeight + buf2ListItems.get(i).getWeight();
+            if (bufMaxCost > maxGeneralCost && bufMaxWeight <= maxKnapsackWeight) {
+                maxGeneralCost = bufMaxCost;
+                resultListItems.clear();
+                resultListItems.addAll(newBufList);
+            }
 
         }
 
-        if (bufMaxCost > maxGeneralCost && bufMaxWeight <= maxGeneralWeight) {
-            resultListItems.addAll(buf2ListItems);
-        }
 
-        find(bufListItems);
 
     }
 }
