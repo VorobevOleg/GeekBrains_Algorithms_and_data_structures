@@ -5,12 +5,12 @@ import java.util.*;
 public class GraphImpl implements Graph{
     private final List<Vertex> vertexList;
     private final int[][] adjMatrix;
-    private final boolean[][] visitMatrix;
+    private final int[][] visitMatrix;
 
     public GraphImpl(int maxVertexCount) {
         this.vertexList = new ArrayList<>(maxVertexCount);
         this.adjMatrix = new int[maxVertexCount][maxVertexCount];
-        this.visitMatrix = new boolean[maxVertexCount][maxVertexCount];
+        this.visitMatrix = new int[maxVertexCount][maxVertexCount];
     }
 
     public void displayAdjMatrix() {
@@ -35,7 +35,7 @@ public class GraphImpl implements Graph{
 
     public boolean isVisited(int startIndex, int endIndex)
     {
-        return visitMatrix[startIndex][endIndex];
+        return visitMatrix[startIndex][endIndex] >= vertexList.get(endIndex).getCountEdges();
     }
 
     @Override
@@ -66,6 +66,7 @@ public class GraphImpl implements Graph{
         }
 
         adjMatrix[startIndex][endIndex] = weight;
+        vertexList.get(indexOf(secondLabel)).addCountEdge();
         return false;
     }
 
@@ -133,7 +134,7 @@ public class GraphImpl implements Graph{
             tempVertex = stack.peek();
             vertex = getNearUnvisitedVertex(stack.peek());
             if (vertex != null) {
-                visitVertex(stack,tempVertex, vertex);
+                visitVertex(stack, tempVertex, vertex);
                 displayVisitMatrix();
             } else {
                 stack.pop();
@@ -155,21 +156,25 @@ public class GraphImpl implements Graph{
     }
 
     private void visitVertex(Stack<Vertex> stack, Vertex vertexPrevios, Vertex vertex) {
-        System.out.print(vertex.getLabel() + " ");
-        stack.add(vertex);
-        visitMatrix[indexOf(vertexPrevios.getLabel())][indexOf(vertex.getLabel())] = true;
+        if (vertex.getCountVisits() < vertex.getCountEdges()) {
+            System.out.print(vertex.getLabel() + " " + vertex.getCountVisits() + " ");
+            stack.add(vertex);
+            visitMatrix[indexOf(vertexPrevios.getLabel())][indexOf(vertex.getLabel())]++;
+            vertex.addCountVisit();
+        }
     }
 
     private void visitVertex(Queue<Vertex> queue, Vertex vertexPrevios, Vertex vertex) {
         System.out.print(vertex.getLabel() + " ");
         queue.add(vertex);
-       visitMatrix[indexOf(vertexPrevios.getLabel())][indexOf(vertex.getLabel())] = true;
+       visitMatrix[indexOf(vertexPrevios.getLabel())][indexOf(vertex.getLabel())]++;
+       vertex.addCountVisit();
     }
 
     private void resetVertexVisited() {
         for (int i = 0; i < getSize(); i++ ) {
             for (int j = 0; j < getSize(); j++) {
-                visitMatrix[i][j] = false;
+                visitMatrix[i][j] = 0;
             }
         }
     }
