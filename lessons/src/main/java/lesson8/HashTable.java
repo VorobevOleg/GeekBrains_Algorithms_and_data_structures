@@ -95,7 +95,7 @@ public class HashTable<K,V> {
                 size++;
             }
         }
-        if ((1.0 * size) / numBuckets > 0.7) {
+        if ((1.0 * size) / numBuckets > 0.75) {
             //do something
             ArrayList<HashNode<K, V>> tmp = bucket;
             bucket = new ArrayList<>();
@@ -114,7 +114,6 @@ public class HashTable<K,V> {
         }
 
     }
-
 
 }
 
