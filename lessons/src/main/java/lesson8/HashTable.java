@@ -96,7 +96,6 @@ public class HashTable<K,V> {
             }
         }
         if ((1.0 * size) / numBuckets > 0.75) {
-            //do something
             ArrayList<HashNode<K, V>> tmp = bucket;
             bucket = new ArrayList<>();
             numBuckets = 2 * numBuckets;
@@ -110,9 +109,20 @@ public class HashTable<K,V> {
                 }
             }
 
-
         }
 
+    }
+
+    public void display () {
+        int i = 0;
+        for (HashNode<K , V> headNode : bucket) {
+            System.out.print("Индекс: " + i++ + " - ");
+            while (headNode != null) {
+                System.out.print(" Ключ: " + headNode.key + " " + "Значение: " + headNode.value + "   ");
+                headNode = headNode.next;
+            }
+            System.out.println("null");
+        }
     }
 
 }
